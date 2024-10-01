@@ -10,6 +10,6 @@ import uz.sb.messageservice.domain.dto.response.UserResponse;
 public interface AuthServiceClient {
 
 
-    @GetMapping("/api/auth/{id}")
+    @GetMapping("/api/auth/find-by-id/{id}")
     UserResponse findById(@PathVariable("id") Long id);
 }
