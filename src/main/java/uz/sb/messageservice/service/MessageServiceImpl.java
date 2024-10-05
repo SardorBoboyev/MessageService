@@ -3,9 +3,12 @@ package uz.sb.messageservice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.sb.messageservice.clients.AuthServiceClient;
+import uz.sb.messageservice.clients.BlockingServiceClient;
 import uz.sb.messageservice.clients.ChatServiceClient;
+import uz.sb.messageservice.domain.dto.request.BlockingRequest;
 import uz.sb.messageservice.domain.dto.request.MessageRequest;
 import uz.sb.messageservice.domain.dto.request.UpdateMessageRequest;
+import uz.sb.messageservice.domain.dto.response.ChatServiceResponse;
 import uz.sb.messageservice.domain.entity.MessageEntity;
 import uz.sb.messageservice.repository.MessageRepository;
 
@@ -21,16 +24,28 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final ChatServiceClient chatServiceClient;
     private final AuthServiceClient authServiceClient;
+    private final BlockingServiceClient blockingServiceClient;
 
     @Override
     public MessageEntity save(MessageRequest request) {
         Long chatId = request.getChatId();
         Long senderId = request.getSenderId();
 
-        if (Objects.isNull(chatServiceClient.findById(chatId)) ||
+        ChatServiceResponse chat = chatServiceClient.findById(chatId);
+
+        if (Objects.isNull(chat) ||
                 Objects.isNull(authServiceClient.findById(senderId))) {
             throw new RuntimeException("chat or user not found");
         }
+
+        boolean isUser1 = chat.getUser1Id().equals(senderId);
+        boolean isUser2 = chat.getUser2Id().equals(senderId);
+
+        if ((isUser1 && blockingServiceClient.isBlocked(chat.getUser2Id(), senderId))
+                || (isUser2 && blockingServiceClient.isBlocked(chat.getUser1Id(), senderId))) {
+            throw new RuntimeException("You are blocked, so you cannot write a message");
+        }
+
 
         return messageRepository.save(MessageEntity.builder()
                 .text(request.getMessage())

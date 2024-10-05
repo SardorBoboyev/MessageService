@@ -10,6 +10,6 @@ import uz.sb.messageservice.domain.dto.response.ChatServiceResponse;
 public interface ChatServiceClient {
 
 
-    @GetMapping("/find-by-id/{id}")
+    @GetMapping("/api/chat/find-by-id/{id}")
     public ChatServiceResponse findById(@PathVariable long id);
 }
