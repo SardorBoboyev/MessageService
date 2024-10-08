@@ -2,17 +2,16 @@ package uz.sb.messageservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.sb.domain.dto.request.MessageRequest;
+import uz.sb.domain.dto.request.UpdateMessageRequest;
 import uz.sb.messageservice.clients.AuthServiceClient;
 import uz.sb.messageservice.clients.ChatServiceClient;
-import uz.sb.messageservice.domain.dto.request.MessageRequest;
-import uz.sb.messageservice.domain.dto.request.UpdateMessageRequest;
 import uz.sb.messageservice.domain.entity.MessageEntity;
 import uz.sb.messageservice.repository.MessageRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

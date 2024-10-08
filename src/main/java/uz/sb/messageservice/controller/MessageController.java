@@ -3,8 +3,8 @@ package uz.sb.messageservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.sb.messageservice.domain.dto.request.MessageRequest;
-import uz.sb.messageservice.domain.dto.request.UpdateMessageRequest;
+import uz.sb.domain.dto.request.MessageRequest;
+import uz.sb.domain.dto.request.UpdateMessageRequest;
 import uz.sb.messageservice.domain.entity.MessageEntity;
 import uz.sb.messageservice.service.MessageService;
 
