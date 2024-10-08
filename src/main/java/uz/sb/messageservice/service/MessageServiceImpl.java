@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.sb.domain.dto.request.MessageRequest;
 import uz.sb.domain.dto.request.UpdateMessageRequest;
+import uz.sb.domain.dto.response.ChatServiceResponse;
 import uz.sb.messageservice.clients.AuthServiceClient;
 import uz.sb.messageservice.clients.BlockingServiceClient;
 import uz.sb.messageservice.clients.ChatServiceClient;
-import uz.sb.messageservice.domain.dto.request.BlockingRequest;
-import uz.sb.messageservice.domain.dto.request.MessageRequest;
-import uz.sb.messageservice.domain.dto.request.UpdateMessageRequest;
-import uz.sb.messageservice.domain.dto.response.ChatServiceResponse;
 import uz.sb.messageservice.domain.entity.MessageEntity;
 import uz.sb.messageservice.repository.MessageRepository;
 
