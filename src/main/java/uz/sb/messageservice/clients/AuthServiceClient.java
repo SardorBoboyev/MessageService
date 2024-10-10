@@ -13,4 +13,7 @@ public interface AuthServiceClient {
 
     @GetMapping("/api/auth/find-by-id/{id}")
     UserResponse findById(@PathVariable("id") Long id);
+
+    @GetMapping("/api/block/isBlocked/{blockerId}/{blockedId}")
+    public boolean isBlocked(@PathVariable Long blockerId, @PathVariable Long blockedId);
 }
