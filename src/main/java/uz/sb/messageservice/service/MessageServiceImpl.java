@@ -6,9 +6,9 @@ import uz.sb.domain.dto.request.MessageRequest;
 import uz.sb.domain.dto.request.UpdateMessageRequest;
 import uz.sb.domain.dto.response.ChatServiceResponse;
 import uz.sb.messageservice.clients.AuthServiceClient;
-import uz.sb.messageservice.clients.BlockingServiceClient;
 import uz.sb.messageservice.clients.ChatServiceClient;
 import uz.sb.messageservice.domain.entity.MessageEntity;
+import uz.sb.messageservice.exception.DataNotFoundException;
 import uz.sb.messageservice.repository.MessageRepository;
 
 import java.time.LocalDateTime;
@@ -22,7 +22,6 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final ChatServiceClient chatServiceClient;
     private final AuthServiceClient authServiceClient;
-    private final BlockingServiceClient blockingServiceClient;
 
     @Override
     public MessageEntity save(MessageRequest request) {
@@ -33,15 +32,15 @@ public class MessageServiceImpl implements MessageService {
 
         if (Objects.isNull(chat) ||
                 Objects.isNull(authServiceClient.findById(senderId))) {
-            throw new RuntimeException("chat or user not found");
+            throw new DataNotFoundException("chat or user not found");
         }
 
         boolean isUser1 = chat.getUser1Id().equals(senderId);
         boolean isUser2 = chat.getUser2Id().equals(senderId);
 
-        if ((isUser1 && blockingServiceClient.isBlocked(chat.getUser2Id(), senderId))
-                || (isUser2 && blockingServiceClient.isBlocked(chat.getUser1Id(), senderId))) {
-            throw new RuntimeException("You are blocked, so you cannot write a message");
+        if ((isUser1 && authServiceClient.isBlocked(chat.getUser2Id(), senderId))
+                || (isUser2 && authServiceClient.isBlocked(chat.getUser1Id(), senderId))) {
+            throw new DataNotFoundException("You are blocked, so you cannot write a message");
         }
 
 
@@ -54,7 +53,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public MessageEntity findById(Long messageId) {
-        return messageRepository.findById(messageId).orElseThrow(() -> new RuntimeException("message not found"));
+        return messageRepository.findById(messageId)
+                .orElseThrow(() -> new DataNotFoundException("message not found"));
     }
 
     @Override
