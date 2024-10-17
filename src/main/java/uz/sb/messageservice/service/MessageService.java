@@ -1,7 +1,7 @@
 package uz.sb.messageservice.service;
 
-import uz.sb.domain.dto.request.MessageRequest;
-import uz.sb.domain.dto.request.UpdateMessageRequest;
+import uz.sb.messageservice.domain.dto.request.MessageRequest;
+import uz.sb.messageservice.domain.dto.request.UpdateMessageRequest;
 import uz.sb.messageservice.domain.entity.MessageEntity;
 
 import java.util.List;
