@@ -9,7 +9,7 @@ import uz.sb.messageservice.domain.dto.response.ChatServiceResponse;
 @FeignClient(name = "CHAT-SERVICE", configuration = FeignConfig.class)
 public interface ChatServiceClient {
 
-
     @GetMapping("/api/chat/find-by-id/{id}")
-    public ChatServiceResponse findById(@PathVariable long id);
+    ChatServiceResponse findById(@PathVariable("id") long id);
+
 }

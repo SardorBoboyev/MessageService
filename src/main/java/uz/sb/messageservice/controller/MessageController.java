@@ -28,9 +28,9 @@ public class MessageController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
+    public ResponseEntity<String> deleteMessage(@PathVariable Long id) {
         messageService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Message deleted successfully");
     }
 
     @PatchMapping("/update")

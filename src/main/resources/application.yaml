@@ -5,9 +5,9 @@ spring:
   application:
     name: MESSAGE-SERVICE
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:5432/sardor
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/my_test
     username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:2004}
+    password: ${DB_PASSWORD:rayaandmaya1426}
   jpa:
     hibernate:
       ddl-auto: update
@@ -24,8 +24,16 @@ eureka:
   instance:
     preferIpAddress: true
 
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: DEBUG
+        security: DEBUG
+
 springdoc:
   swagger-ui:
-    config-url: /api/message/v3/api-docs/swagger-config
-    url: /api/message/swagger-ui
     path: /api/message/swagger-ui
+  api-docs:
+    path: /api/message/v3/api-docs

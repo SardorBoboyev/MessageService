@@ -38,11 +38,14 @@ public class MessageServiceImpl implements MessageService {
         boolean isUser1 = chat.getUser1Id().equals(senderId);
         boolean isUser2 = chat.getUser2Id().equals(senderId);
 
+        if ((isUser1 && chat.isDeletedByUser1()) || (isUser2 && chat.isDeletedByUser2())) {
+            throw new DataNotFoundException("You cannot write a message because the chat is deleted");
+        }
+
         if ((isUser1 && authServiceClient.isBlocked(chat.getUser2Id(), senderId))
                 || (isUser2 && authServiceClient.isBlocked(chat.getUser1Id(), senderId))) {
             throw new DataNotFoundException("You are blocked, so you cannot write a message");
         }
-
 
         return messageRepository.save(MessageEntity.builder()
                 .text(request.getMessage())
@@ -50,6 +53,7 @@ public class MessageServiceImpl implements MessageService {
                 .senderId(senderId)
                 .build());
     }
+
 
     @Override
     public MessageEntity findById(Long messageId) {
@@ -64,7 +68,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void deleteById(Long messageId) {
-        messageRepository.deleteById(messageId);
+        MessageEntity byId = findById(messageId);
+        messageRepository.delete(byId);
     }
 
     @Override

@@ -12,4 +12,6 @@ import lombok.Setter;
 public class ChatServiceResponse extends BaseResponse {
     private Long user1Id;
     private Long user2Id;
+    private boolean isDeletedByUser1;
+    private boolean isDeletedByUser2;
 }

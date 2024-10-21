@@ -16,9 +16,12 @@ import java.util.List;
 
 @Component
 public class CustomFilter extends OncePerRequestFilter {
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String username = request.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String username = request.getHeader("X-Username");
 //        String roles = request.getHeader("X-Roles");
 
         if (username == null) {
@@ -28,7 +31,7 @@ public class CustomFilter extends OncePerRequestFilter {
 
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, null, null);
+                new UsernamePasswordAuthenticationToken(username, null,null);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);

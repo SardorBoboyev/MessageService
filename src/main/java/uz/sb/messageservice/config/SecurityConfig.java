@@ -11,7 +11,11 @@ import uz.sb.messageservice.filter.CustomFilter;
 @Configuration
 public class SecurityConfig {
 
-    private final String[] WHITE_LIST = {"/api/message/swagger-ui/**", "/api/message/v3/api-docs/**"};
+    private final String[] WHITE_LIST = {"/api/message/swagger-ui/**",
+            "/api/message/v3/api-docs/**",
+            "/v3/api-docs/",
+            "/swagger-ui/",
+            "/swagger-ui.html"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
