@@ -8,4 +8,6 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
 
     List<MessageEntity> findAllByChatId(Long chatId);
+
+    MessageEntity findTopByChatIdOrderByCreatedAtDesc(Long chatId);
 }

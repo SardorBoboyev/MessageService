@@ -37,4 +37,10 @@ public class MessageController {
     public MessageEntity update(@RequestBody UpdateMessageRequest updateMessageRequest) {
         return messageService.update(updateMessageRequest);
     }
+
+    @GetMapping("/get-last-message/{chatId}")
+    public ResponseEntity<MessageEntity> getLastMessage(@PathVariable Long chatId) {
+        MessageEntity lastMessage = messageService.findLastMessage(chatId);
+        return ResponseEntity.ok(lastMessage);
+    }
 }

@@ -17,4 +17,6 @@ public interface MessageService {
     void deleteById(Long messageId);
 
     MessageEntity update(UpdateMessageRequest request);
+
+    MessageEntity findLastMessage(Long chatID);
 }

@@ -35,8 +35,12 @@ public class MessageServiceImpl implements MessageService {
             throw new DataNotFoundException("chat or user not found");
         }
 
-        boolean isUser1 = chat.getUser1Id().equals(senderId);
-        boolean isUser2 = chat.getUser2Id().equals(senderId);
+        boolean isUser1 = chat.getUser1Id().equals(senderId); //false
+        boolean isUser2 = chat.getUser2Id().equals(senderId); //true
+
+        if (!(((!isUser1) && isUser2) || (isUser1 && !isUser2))) {
+            throw new DataNotFoundException("this user is not present in this chat");
+        }
 
         if ((isUser1 && chat.isDeletedByUser1()) || (isUser2 && chat.isDeletedByUser2())) {
             throw new DataNotFoundException("You cannot write a message because the chat is deleted");
@@ -78,6 +82,19 @@ public class MessageServiceImpl implements MessageService {
         byId.setText(request.getText());
         byId.setUpdatedAt(LocalDateTime.now());
         return messageRepository.save(byId);
+    }
+
+    @Override
+    public MessageEntity findLastMessage(Long chatID) {
+        ChatServiceResponse byId = chatServiceClient.findById(chatID);
+        if (Objects.isNull(byId)) {
+            throw new DataNotFoundException("chat not found");
+        }
+        MessageEntity message = messageRepository.findTopByChatIdOrderByCreatedAtDesc(chatID);
+        if (Objects.isNull(message)) {
+            throw new DataNotFoundException("no message");
+        }
+        return message;
     }
 
 
